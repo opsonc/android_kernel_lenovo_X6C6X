@@ -1,0 +1,34 @@
+name: Kernel CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout Kernel Source
+      uses: actions/checkout@v2
+
+    - name: Installing packages
+      run: |
+        sudo apt-get install lib32z1 ccache
+    - name: Building Kernel
+      run: |
+        export KBUILD_BUILD_USER=opsonc-notnoel
+        export KBUILD_BUILD_HOST=lenovo-X6C6X
+        export PATH=$PWD/prebuilts/clang/host/linux-x86/clang-r383902/bin/:$PATH
+        export PATH=$PWD/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/:$PATH
+        cd kernel-4.19
+        make ARCH=arm64 CROSS_COMPILE=aarch64-linux-androidkernel- CLANG_TRIPLE=aarch64-linux-gnu- LD=ld.lld LD_LIBRARY_PATH=$PWD/prebuilts/clang/host/linux-x86/clang-r383902/lib64: NM=llvm-nm OBJCOPY=llvm-objcopy CC=clang ROOTDIR=$PWD O=out P98928AA1_defconfig
+        make ARCH=arm64 CROSS_COMPILE=aarch64-linux-androidkernel- CLANG_TRIPLE=aarch64-linux-gnu- LD=ld.lld LD_LIBRARY_PATH=$PWD/prebuilts/clang/host/linux-x86/clang-r383902/lib64: NM=llvm-nm OBJCOPY=llvm-objcopy CC=clang ROOTDIR=$PWD O=out O=out -j32
+    - name: Moving Output # CI only
+      run: |
+        mkdir -p /home/runner/work/output
+        cp arch/arm64/boot/Image.gz /home/runner/work/output/Image.gz
+    - name: Uploading Output
+      uses: actions/upload-artifact@v2
+      with:
+        name: zImage
+        path: /home/runner/work/output/Image.gz
