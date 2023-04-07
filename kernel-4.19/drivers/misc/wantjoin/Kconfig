@@ -1,0 +1,11 @@
+
+menu	"Wantjoin software Configuration"
+
+config WANTJOIN_FIREWALL
+	tristate "wantjoin co. ltd firewall core"
+	depends on NETFILTER
+	default n
+	help
+	  A firewall module. Say Y when you want to support this tool.
+
+endmenu

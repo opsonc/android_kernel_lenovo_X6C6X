@@ -1,0 +1,6 @@
+config WTSYSFS
+  bool "Enable Wentai Sysfs Driver"
+  default n
+  help
+    Wentai Sysfs information driver includes specific information about hardware info and other info for wentai tools
+

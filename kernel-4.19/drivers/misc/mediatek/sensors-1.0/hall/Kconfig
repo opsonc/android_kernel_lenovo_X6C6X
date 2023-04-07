@@ -1,0 +1,5 @@
+
+config CUSTOM_KERNEL_HALL
+	bool "CUSTOM KERNEL HALL Config"
+	help
+	  HALL sensor driver to detect cover or uncover of device. 
