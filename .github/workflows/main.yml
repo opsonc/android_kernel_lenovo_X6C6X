@@ -26,7 +26,7 @@ jobs:
     - name: Moving Output # CI only
       run: |
         mkdir -p /home/runner/work/output
-        cp 4.19/out/arch/arm64/boot/Image.gz /home/runner/work/output/Image.gz
+        cp Q1 kernel-4.19/out/arch/arm64/boot/Image.gz /home/runner/work/output/Image.gz
     - name: Uploaing Output
       uses: actions/upload-artifact@v2
       with:
